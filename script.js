@@ -1,4 +1,4 @@
-let todos = [];
+let todos = JSON.parse(localStorage.getItem("todoApp")) || [];
 const list = document.getElementById('list');
 
 //! add todo form 
@@ -14,6 +14,10 @@ const editBtn = document.getElementById("editBtn")
 const cancelBtn = document.getElementById("cancelBtn")
 
 let todoIndex = null;
+
+const saveTodos = () => {
+    localStorage.setItem('todoApp', JSON.stringify(todos))
+}
 const renderTodo = () => {
     list.innerHTML = "";
 
@@ -81,6 +85,7 @@ const addTodo = () => {
     let data = text.value.trim();
     todos.push({ data, done: false });
     renderTodo();
+    saveTodos();
     text.value = "";
 };
 
@@ -96,6 +101,7 @@ text.addEventListener('keypress', (e) => {
 const deleteTodo = (index) => {
     todos.splice(index, 1);
     renderTodo();
+    saveTodos();
 };
 
 
@@ -112,6 +118,7 @@ const edittodo = () => {
     let updateTodo = editText.value;
     todos[todoIndex].data = updateTodo;
     renderTodo();
+    saveTodos();
 
     addTodoForm.classList.remove('hidden');
     editTodoForm.classList.add('hidden');
